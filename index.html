@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Frame Margin</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f1b2d'/%3E%3Cg fill='none' stroke='%23ffb703' stroke-width='5' stroke-linecap='round'%3E%3Ccircle cx='20' cy='35' r='10'/%3E%3Ccircle cx='44' cy='35' r='10'/%3E%3Cpath d='M30 33q2-5 4 0M10 31l-5-4M54 31l5-4'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/scene.css">
+<link rel="stylesheet" href="css/minigames.css">
+</head>
+<body>
+<main id="app" class="app">
+
+  <!-- ===== MENU ===== -->
+  <section id="screen-menu" class="screen is-active" aria-label="Main menu">
+    <div class="menu-inner">
+      <div id="menu-art" class="menu-art" aria-hidden="true"></div>
+      <h1 class="title">Frame <span>Margin</span></h1>
+      <button id="btn-start" class="btn btn-start" type="button">START</button>
+    </div>
+    <div id="drawer" class="drawer">
+      <button id="drawer-toggle" class="drawer-toggle" type="button" aria-expanded="false" aria-controls="drawer-body">
+        <span>Level Select</span>
+        <span id="drawer-count" class="drawer-count"></span>
+        <span class="chev" aria-hidden="true"></span>
+      </button>
+      <div id="drawer-body" class="drawer-body">
+        <div class="drawer-clip"><div id="level-grid" class="level-grid"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GAME ===== -->
+  <section id="screen-game" class="screen" aria-label="Game">
+    <div id="scene" class="scene">
+      <header class="scene-head">
+        <span id="scene-level" class="pill"></span>
+        <span id="scene-name" class="scene-name"></span>
+        <span id="scene-rules" class="scene-rules"></span>
+      </header>
+      <div id="studio" class="studio">
+        <div class="sweep"></div>
+        <div class="softbox sb-l"></div>
+        <div class="softbox sb-r"></div>
+        <div class="tabletop"></div>
+        <div id="bag-back" class="bag-back"></div>
+        <div id="g-shadow" class="g-shadow"></div>
+        <div id="glasses" class="glasses"></div>
+        <div id="bag-front" class="bag-front">
+          <div class="bag-flap"></div>
+          <div class="bag-label">FRAGILE &middot; OPTICAL</div>
+        </div>
+        <div id="finder" class="finder"><i></i><i></i><i></i><i></i></div>
+        <div id="snap" class="snap"><div id="snap-img" class="snap-img"></div><span>LISTING PHOTO &#10003;</span></div>
+      </div>
+      <footer class="scene-foot">
+        <p id="scene-caption" class="caption" aria-live="polite"></p>
+        <button id="btn-photo" class="btn btn-shutter" type="button" disabled>
+          <span class="cam" aria-hidden="true"></span>Take Photo
+        </button>
+      </footer>
+    </div>
+
+    <div id="monitor" class="monitor" inert>
+      <div class="mon-bezel">
+        <div class="mon-screen">
+          <div class="mon-bar">
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="mon-url">eBay Messages</span>
+            <span id="hud-round" class="mon-round"></span>
+          </div>
+          <div class="chat-head">
+            <span id="c-avatar" class="avatar" aria-hidden="true"></span>
+            <div class="c-id"><strong id="c-name"></strong><small id="c-meta"></small></div>
+            <div class="c-patience">
+              <span class="lbl">Customer patience</span>
+              <div id="patience-bar" class="bar"><div id="patience-fill" class="bar-fill"></div></div>
+            </div>
+          </div>
+          <div id="hud" class="hud">
+            <div class="chip"><small>Paid</small><b id="hud-paid">$100.00</b></div>
+            <div class="chip"><small>Cost</small><b id="hud-cost">$66.00</b></div>
+            <div class="chip"><small>Given away</small><b id="hud-given">$0.00</b></div>
+            <div class="chip chip-margin">
+              <small>Margin <span id="hud-floor"></span></small>
+              <b id="hud-margin">34.00%</b>
+              <div class="meter"><div id="meter-fill" class="meter-fill"></div><i id="meter-floor" class="meter-floor"></i></div>
+            </div>
+            <div class="chip"><small>Can still give</small><b id="hud-room">$0.00</b></div>
+          </div>
+          <div id="chat-log" class="chat-log" aria-live="polite"></div>
+          <div class="reply-zone">
+            <div id="timer" class="timer"><div id="timer-fill" class="timer-fill"></div><span id="timer-num" class="timer-num"></span></div>
+            <div id="reply-options" class="reply-options"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <button id="btn-mute" class="btn-mute" type="button" aria-label="Mute sound" aria-pressed="false" hidden>
+    <span aria-hidden="true"></span>
+  </button>
+  <button id="btn-quit" class="btn-quit" type="button" aria-label="Quit to menu" title="Quit to menu" hidden>
+    <i aria-hidden="true"></i><b>Quit?</b>
+  </button>
+
+  <div id="flash" class="flash" aria-hidden="true"></div>
+
+  <!-- ===== MINI-GAME OVERLAY ===== -->
+  <div id="overlay-mg" class="overlay overlay-mg" hidden>
+    <div class="mg-panel" role="dialog" aria-modal="true" aria-labelledby="mg-title">
+      <header class="mg-head">
+        <span class="mg-siren" aria-hidden="true"></span>
+        <div class="mg-heading"><small>Store emergency</small><h2 id="mg-title"></h2></div>
+        <div id="mg-timer" class="mg-timer"><div id="mg-timer-fill" class="mg-timer-fill"></div><span id="mg-timer-num"></span></div>
+      </header>
+      <div id="mg-brief" class="mg-brief"></div>
+      <div id="mg-body" class="mg-body"></div>
+      <div id="mg-status" class="mg-status" aria-live="assertive"></div>
+      <div id="mg-stamp" class="mg-stamp" hidden></div>
+    </div>
+  </div>
+
+  <div id="confetti" class="confetti" aria-hidden="true"></div>
+
+  <div id="overlay-modal" class="overlay overlay-modal" hidden>
+    <div id="modal" class="modal" role="dialog" aria-modal="true"></div>
+  </div>
+
+  <div id="coach" class="coach" hidden>
+    <div class="coach-card">
+      <div class="coach-face" aria-hidden="true">M</div>
+      <div class="coach-text"><b>Mona &middot; store manager</b><p id="coach-msg"></p></div>
+      <button id="coach-btn" class="btn btn-small" type="button">Got it</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" aria-live="polite"></div>
+</main>
+
+<script src="js/core.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/levels-a.js"></script>
+<script src="js/levels-b.js"></script>
+<script src="js/levels-c.js"></script>
+<script src="js/levels.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/prechat.js"></script>
+<script src="js/chat.js"></script>
+<script src="js/mg-core.js"></script>
+<script src="js/mg-robber.js"></script>
+<script src="js/mg-printer.js"></script>
+<script src="js/mg-lens.js"></script>
+<script src="js/mg-dispute.js"></script>
+<script src="js/mg-scratch.js"></script>
+<script src="js/mg-recount.js"></script>
+<script src="js/mg-courier.js"></script>
+<script src="js/tutorial.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
